@@ -11,10 +11,10 @@ class TypeDocument(models.Model):
     format_autorise = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.nom_type
+        return self.nom_typeier
 
-# --- Documents ---
-class Documents(models.Model):
+# --- Document ---
+class Document(models.Model):
     id_document = models.AutoField(primary_key=True)
     nom_document = models.CharField(max_length=255)
     fichier = models.FileField(upload_to='documents/') 
@@ -32,7 +32,9 @@ class Documents(models.Model):
         db_column='id_demande'
     )
     id_paiement = models.ForeignKey('paiements.Paiement', on_delete=models.CASCADE, null=True, blank=True, db_column='id_paiement')
-
+    class Meta:
+        verbose_name = "Document"
+        verbose_name_plural = "Documents"
     def clean(self):
         if not self.id_demande and not self.id_brevet:
             raise ValidationError("Un document doit être obligatoirement lié à une Demande de Brevet ou à un Brevet.")

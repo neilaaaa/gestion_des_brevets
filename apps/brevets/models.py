@@ -62,7 +62,7 @@ class Brevet(models.Model):
 
     id_brevet = models.CharField(max_length=50, primary_key=True)
     num_brevet = models.IntegerField()
-    titre = models.CharField(max_length=255)
+    titre = models.CharField(max_length=1000)
     num_depo = models.IntegerField()
     date_depo = models.DateField()
     date_sortie = models.DateField()
