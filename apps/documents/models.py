@@ -1,33 +1,41 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
-# --- Type de Document ---
-class Typedocument(models.Model):
-    # Attributs du diagramme [1]
-    id_type = models.AutoField(primary_key=True) # id_type: int
+# --- TypeDocument ---
+class TypeDocument(models.Model):
+    id_type = models.AutoField(primary_key=True)
     nom_type = models.CharField(max_length=100)
     description = models.TextField()
-    taille_max = models.IntegerField() # en Ko ou Mo
-    format_autorise = models.CharField(max_length=50) # ex: .pdf, .docx
+    taille_max = models.IntegerField()
+    format_autorise = models.CharField(max_length=50)
 
     def __str__(self):
         return self.nom_type
 
 # --- Documents ---
 class Documents(models.Model):
-    # Attributs du diagramme [1]
-    id_document = models.AutoField(primary_key=True) # id_document: int
+    id_document = models.AutoField(primary_key=True)
     nom_document = models.CharField(max_length=255)
-    fichier = models.FileField(upload_to='brevets/documents/') # fichier: string
-    date_ajout = models.DateField(auto_now_add=True) # date_ajout: date
+    fichier = models.FileField(upload_to='documents/') 
+    date_ajout = models.DateField(auto_now_add=True)
 
-    # Relations basées sur le schéma relationnel [1]
-    typedocument = models.ForeignKey(Typedocument, on_delete=models.CASCADE) # id_type*
-    utilisateur = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # id_user*
-    
-    # Relations optionnelles vers les dossiers (selon le schéma relationnel)
-    brevet = models.ForeignKey('brevets.Brevet', on_delete=models.CASCADE, null=True, blank=True)
-    demande = models.ForeignKey('brevets.DemandeBrevet', on_delete=models.CASCADE, null=True, blank=True)
-    paiement = models.ForeignKey('paiements.Paiement', on_delete=models.CASCADE, null=True, blank=True)
+    # Relations UML
+    id_type = models.ForeignKey(TypeDocument, on_delete=models.CASCADE, db_column='id_type')
+    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user')
+    id_brevet = models.ForeignKey('brevets.Brevet', on_delete=models.CASCADE, null=True, blank=True, db_column='id_brevet')
+    id_demande = models.ForeignKey(
+        'brevets.DemandeBrevet',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        db_column='id_demande'
+    )
+    id_paiement = models.ForeignKey('paiements.Paiement', on_delete=models.CASCADE, null=True, blank=True, db_column='id_paiement')
+
+    def clean(self):
+        if not self.id_demande and not self.id_brevet:
+            raise ValidationError("Un document doit être obligatoirement lié à une Demande de Brevet ou à un Brevet.")
+
     def __str__(self):
         return self.nom_document

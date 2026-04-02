@@ -1,27 +1,15 @@
 from django.db import models
 from django.conf import settings
 
-# --- Deposant ---
-class Deposant(models.Model):
-    id_dep = models.CharField(max_length=50, primary_key=True) # string dans [1]
-    nom_dep = models.CharField(max_length=100)
-    prenom_dep = models.CharField(max_length=100)
-    denomination = models.CharField(max_length=255)
-    adresse_dep = models.TextField()
-    nationalite = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f"{self.nom_dep} {self.prenom_dep}"
-
-# --- DemandeBrevet ---
+# --- DemandeBrevet (Must be above classes that reference it) ---
 class DemandeBrevet(models.Model):
-    STATUT_CHOICES = [('valider', 'Valider'), ('non_valider', 'Non Valider')] # [1]
+    STATUT_CHOICES = [('valider', 'valider'), ('non_valider', 'non_valider')]
 
-    id_demande = models.CharField(max_length=50, primary_key=True) # string dans [1]
-    titre = models.CharField(max_length=1000)
+    id_demande = models.CharField(max_length=50, primary_key=True)
+    titre = models.TextField()
     nature = models.CharField(max_length=100)
-    num_depot = models.IntegerField()
-    date_depot = models.DateField()
+    num_depo = models.IntegerField()
+    date_depo = models.DateField()
     pays_origine = models.CharField(max_length=100)
     numdemande_CA = models.IntegerField()
     date_CA = models.DateField()
@@ -33,45 +21,56 @@ class DemandeBrevet(models.Model):
     autre_info = models.TextField(blank=True)
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='non_valider')
 
-    # Relations
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # (1,1) dans [1]
-    deposant = models.ForeignKey(Deposant, on_delete=models.CASCADE) # (1,1) dans [1]
+    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user', related_name='demandes')
 
     def __str__(self):
-        return self.titre
+        return f"{self.id_demande} - {self.titre}"
+
+# --- Deposant ---
+class Deposant(models.Model):
+    id_dep = models.CharField(max_length=50, primary_key=True)
+    nom_dep = models.CharField(max_length=100)
+    prenom_dep = models.CharField(max_length=100)
+    denomination = models.CharField(max_length=255)
+    adresse_dep = models.CharField(max_length=255)
+    nationalite = models.CharField(max_length=100)
+    
+    id_demande = models.OneToOneField(DemandeBrevet, on_delete=models.CASCADE, db_column='id_demande')
+
+    def __str__(self):
+        return f"{self.nom_dep} {self.prenom_dep}"
 
 # --- Inventeur ---
 class Inventeur(models.Model):
-    id_inv = models.CharField(max_length=50, primary_key=True) # string dans [1]
+    id_inv = models.CharField(max_length=50, primary_key=True)
     nom_inv = models.CharField(max_length=100)
     prenom_inv = models.CharField(max_length=100)
-    adresse_inv = models.TextField()
-    # Relation (1,*) : Plusieurs inventeurs pour une demande [1]
-    demande = models.ForeignKey(DemandeBrevet, on_delete=models.CASCADE, related_name='inventeurs')
+    adress_inv = models.CharField(max_length=255)
+
+    id_demande = models.ForeignKey(DemandeBrevet, on_delete=models.CASCADE, related_name='inventeurs', db_column='id_demande')
 
     def __str__(self):
         return f"{self.nom_inv} {self.prenom_inv}"
 
 # --- Brevet ---
 class Brevet(models.Model):
-    STATUS_CHOICES = [
-        ('ACCEPTER', 'Accepter'),
-        ('REFUSER', 'Refuser'),
-        ('EN_ATTENTE', 'En attente'),
-    ] # [1]
+    STATUT_CHOICES = [
+        ('ACCEPTER', 'ACCEPTER'),
+        ('REFUSER', 'REFUSER'),
+        ('EN_ATTENTE', 'EN_ATTENTE'),
+    ]
 
-    id_brevet = models.CharField(max_length=50, primary_key=True) # string dans [1]
+    id_brevet = models.CharField(max_length=50, primary_key=True)
     num_brevet = models.IntegerField()
     titre = models.CharField(max_length=255)
-    num_depot = models.IntegerField()
-    date_depot = models.DateField()
+    num_depo = models.IntegerField()
+    date_depo = models.DateField()
     date_sortie = models.DateField()
     titulaire = models.CharField(max_length=255)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    statut = models.CharField(max_length=20, choices=STATUT_CHOICES)
 
-    # Relations
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # (1,1) utilisateur peut créer (0,*) brevets [1]
-    demande = models.OneToOneField(DemandeBrevet, on_delete=models.CASCADE, null=True, blank=True) # (0,1) dans [1]
+    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user', related_name='brevets_crees')
+    id_demande = models.OneToOneField(DemandeBrevet, on_delete=models.CASCADE, null=True, blank=True, db_column='id_demande')
 
     def __str__(self):
         return self.titre

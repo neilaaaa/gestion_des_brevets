@@ -1,12 +1,8 @@
 from django.contrib import admin
-from .models import Notification
+from .models import Notifications
 
-@admin.register(Notification)
-class NotificationAdmin(admin.ModelAdmin):
-    # Permet de consulter l'historique des alertes système
-    list_display = ('id_notif', 'utilisateur', 'message', 'date_notif', 'etat')
+@admin.register(Notifications)
+class NotificationsAdmin(admin.ModelAdmin):
+    list_display = ('id_notif', 'date_notif', 'etat', 'id_user')
     list_filter = ('etat', 'date_notif')
-    search_fields = ('message', 'utilisateur__username', 'id_notif')
-    
-    # On peut marquer manuellement comme lu/non lu dans l'admin
-    list_editable = ('etat',)
+    search_fields = ('id_notif', 'message')
