@@ -11,7 +11,7 @@ class TypeDocument(models.Model):
     format_autorise = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.nom_typeier
+        return self.nom_type
 
 # --- Document ---
 class Document(models.Model):
