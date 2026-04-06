@@ -35,7 +35,7 @@ class Deposant(models.Model):
     adresse_dep = models.CharField(max_length=255)
     nationalite = models.CharField(max_length=100)
     
-    id_demande = models.OneToOneField(DemandeBrevet, on_delete=models.CASCADE, db_column='id_demande')
+    id_demande = models.ForeignKey(DemandeBrevet, on_delete=models.CASCADE, db_column='id_demande') #foreignKey au lieu de OnetoOne
 
     def __str__(self):
         return f"{self.nom_dep} {self.prenom_dep}"
@@ -47,7 +47,7 @@ class Inventeur(models.Model):
     prenom_inv = models.CharField(max_length=100)
     adress_inv = models.CharField(max_length=255)
 
-    id_demande = models.ForeignKey(DemandeBrevet, on_delete=models.CASCADE, related_name='inventeurs', db_column='id_demande')
+    id_demande = models.ManyToManyField(DemandeBrevet, on_delete=models.CASCADE, related_name='inventeurs', db_column='id_demande') #manyToManyField au lieu de ForeignKey
 
     def __str__(self):
         return f"{self.nom_inv} {self.prenom_inv}"
