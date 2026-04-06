@@ -7,7 +7,7 @@ class DeposantInline(admin.StackedInline):
     can_delete = False # Le déposant est obligatoire
 
 class InventeurInline(admin.TabularInline):
-    model = Inventeur
+    model = Inventeur.id_demande.through # Utilisation de la table intermédiaire pour le ManyToMany
     extra = 1
 
 @admin.register(Deposant)
@@ -18,10 +18,14 @@ class DeposantAdmin(admin.ModelAdmin):
 
 @admin.register(Inventeur)
 class InventeurAdmin(admin.ModelAdmin):
-    list_display = ('id_inv', 'nom_inv', 'prenom_inv', 'id_demande')
+    list_display = ('id_inv', 'nom_inv', 'prenom_inv', 'get_demandes')
     search_fields = ('nom_inv', 'prenom_inv', 'id_inv')
     # Permet de filtrer les inventeurs par le titre de la demande
     list_filter = ('id_demande__titre',)
+    
+    @admin.display(description='Demandes')
+    def get_demandes(self, obj):
+        return ", ".join([str(d.titre) for d in obj.id_demande.all()])
 
 @admin.register(DemandeBrevet)
 class DemandeBrevetAdmin(admin.ModelAdmin):

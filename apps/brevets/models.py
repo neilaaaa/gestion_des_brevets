@@ -47,7 +47,7 @@ class Inventeur(models.Model):
     prenom_inv = models.CharField(max_length=100)
     adress_inv = models.CharField(max_length=255)
 
-    id_demande = models.ManyToManyField(DemandeBrevet, on_delete=models.CASCADE, related_name='inventeurs', db_column='id_demande') #manyToManyField au lieu de ForeignKey
+    id_demande = models.ManyToManyField(DemandeBrevet, related_name='inventeurs') #manyToManyField au lieu de ForeignKey
 
     def __str__(self):
         return f"{self.nom_inv} {self.prenom_inv}"
