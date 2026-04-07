@@ -5,7 +5,7 @@ from django.conf import settings
 class DemandeBrevet(models.Model):
     STATUT_CHOICES = [('valider', 'valider'), ('non_valider', 'non_valider')]
 
-    id_demande = models.CharField(max_length=50, primary_key=True)
+    id_demande = models.AutoField(max_length=50, primary_key=True)
     titre = models.TextField()
     nature = models.CharField(max_length=100)
     num_depo = models.IntegerField()
@@ -28,7 +28,7 @@ class DemandeBrevet(models.Model):
 
 # --- Deposant ---
 class Deposant(models.Model):
-    id_dep = models.CharField(max_length=50, primary_key=True)
+    id_dep = models.AutoField(max_length=50, primary_key=True)
     nom_dep = models.CharField(max_length=100)
     prenom_dep = models.CharField(max_length=100)
     denomination = models.CharField(max_length=255)
@@ -42,7 +42,7 @@ class Deposant(models.Model):
 
 # --- Inventeur ---
 class Inventeur(models.Model):
-    id_inv = models.CharField(max_length=50, primary_key=True)
+    id_inv = models.AutoField(max_length=50, primary_key=True)
     nom_inv = models.CharField(max_length=100)
     prenom_inv = models.CharField(max_length=100)
     adress_inv = models.CharField(max_length=255)
@@ -60,7 +60,7 @@ class Brevet(models.Model):
         ('EN_ATTENTE', 'EN_ATTENTE'),
     ]
 
-    id_brevet = models.CharField(max_length=50, primary_key=True)
+    id_brevet = models.AutoField(max_length=50, primary_key=True)
     num_brevet = models.IntegerField()
     titre = models.CharField(max_length=1000)
     num_depo = models.IntegerField()
