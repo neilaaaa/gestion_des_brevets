@@ -3,10 +3,10 @@ from .models import TypeDocument, Document
 
 class TypeDocumentSerializer(serializers.ModelSerializer):
   class Meta:
-    model: TypeDocument
+    model = TypeDocument
     fields = '__all__'
     
 class DocumentSerializer(serializers.ModelSerializer):
   class Meta:
-    model: Document
+    model = Document
     fields = '__all__'

@@ -3,5 +3,5 @@ from .models import Recours
 
 class RecoursSerializer(serializers.ModelSerializer):
   class Meta:
-    model:Recours
+    model = Recours
     fields = '__all__'

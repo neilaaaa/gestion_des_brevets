@@ -3,5 +3,5 @@ from .models import Paiement
 
 class PaiementSerializer(serializers.ModelSerializer):
   class Meta:
-    model:Paiement
+    model = Paiement
     fields = '__all__'
