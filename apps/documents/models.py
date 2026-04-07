@@ -22,7 +22,7 @@ class Document(models.Model):
 
     # Relations UML
     id_type = models.ForeignKey(TypeDocument, on_delete=models.CASCADE, db_column='id_type')
-    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user')
+    id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id')
     id_brevet = models.ForeignKey('brevets.Brevet', on_delete=models.CASCADE, null=True, blank=True, db_column='id_brevet')
     id_demande = models.ForeignKey(
         'brevets.DemandeBrevet',

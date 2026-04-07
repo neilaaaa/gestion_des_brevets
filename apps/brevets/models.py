@@ -21,7 +21,7 @@ class DemandeBrevet(models.Model):
     autre_info = models.TextField(blank=True)
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='non_valider')
 
-    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user', related_name='demandes')
+    id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id', related_name='demandes')
 
     def __str__(self):
         return f"{self.id_demande} - {self.titre}"
@@ -69,7 +69,7 @@ class Brevet(models.Model):
     titulaire = models.CharField(max_length=255)
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES)
 
-    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user', related_name='brevets_crees')
+    id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id', related_name='brevets_crees')
     id_demande = models.OneToOneField(DemandeBrevet, on_delete=models.CASCADE, null=True, blank=True, db_column='id_demande')
 
     def __str__(self):

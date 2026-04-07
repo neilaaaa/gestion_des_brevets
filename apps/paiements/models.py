@@ -15,7 +15,7 @@ class Paiement(models.Model):
     # Relations UML
     id_brevet = models.OneToOneField('brevets.Brevet', on_delete=models.CASCADE, db_column='id_brevet')
     id_document = models.OneToOneField('documents.Document', on_delete=models.SET_NULL, null=True, blank=True, db_column='id_document')
-    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user')
+    id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id')
 
     def __str__(self):
         return f"Paiement {self.id_paiement}"

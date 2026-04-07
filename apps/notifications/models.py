@@ -7,7 +7,7 @@ class Notifications(models.Model):     # UML box exactly named 'Notifications'
     message = models.TextField()
     etat = models.BooleanField(default=False)
 
-    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user')
+    id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id')
 
     class Meta:
         verbose_name = "Notification"

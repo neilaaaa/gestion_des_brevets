@@ -9,12 +9,12 @@ class RoleAdmin(admin.ModelAdmin):
 
 @admin.register(Utilisateur)
 class UtilisateurAdmin(UserAdmin):
-    list_display = ('id_user', 'username', 'email', 'id_role', 'is_staff', 'date_ajout')
+    list_display = ('id', 'username', 'email', 'id_role', 'is_staff', 'date_ajout')
     list_filter = ('id_role', 'is_staff', 'is_superuser', 'is_active')
-    search_fields = ('id_user', 'username', 'email')
+    search_fields = ('username', 'email')
 
     fieldsets = (
-        ('Credentials (UML: username, mdp)', {'fields': ('id_user', 'username', 'password')}),
+        ('Credentials (UML: username, mdp)', {'fields': ('username', 'password')}),
         ('Informations personnelles', {
             'fields': ('first_name', 'last_name', 'email', 'id_role', 'date_ajout')
         }),
@@ -26,7 +26,7 @@ class UtilisateurAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('id_user', 'username', 'email', 'id_role', 'password1', 'password2'),
+            'fields': ('username', 'email', 'id_role', 'password1', 'password2'),
         }),
     )
 

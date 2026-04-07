@@ -10,7 +10,7 @@ class DocumentListView(generics.ListCreateAPIView):
     
     def get_queryset(self):
         # Chaque user voit seulement ses propres documents
-        return Document.objects.filter(id_user=self.request.user)
+        return Document.objects.filter(id=self.request.user)
 
 class TypeDocumentListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]

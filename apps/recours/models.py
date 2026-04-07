@@ -17,7 +17,7 @@ class Recours(models.Model):
 
     # Relations UML
     id_brevet = models.ForeignKey('brevets.Brevet', on_delete=models.CASCADE, db_column='id_brevet')
-    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id_user')
+    id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='id')
 
     def __str__(self):
         return f"Recours {self.id_recours} - {self.motif}"
