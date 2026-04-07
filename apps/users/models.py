@@ -19,11 +19,11 @@ class Utilisateur(AbstractUser):
     # Propriété pour supporter l'alias "mdp" figurant sur le diagramme UML
     @property
     def mdp(self):
-        return self.password
+        return self.password #mot de passe haché stocké dans la base de données exemple: pbkdf2_sha256$39..
         
     @mdp.setter
     def mdp(self, raw_password):
-        self.set_password(raw_password)
+        self.set_password(raw_password) #mot de passe brut exemple:'1234'
 
     id_role = models.ForeignKey(Role, on_delete=models.PROTECT, db_column='id_role')
 

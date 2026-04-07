@@ -1,4 +1,3 @@
-from django.views.generic import ListView, DetailView
 from .models import Document, TypeDocument
 from .serializers import DocumentSerializer, TypeDocumentSerializer
 from rest_framework import generics
