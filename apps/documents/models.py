@@ -31,7 +31,7 @@ class Document(models.Model):
         blank=True,
         db_column='id_demande'
     )
-    id_paiement = models.ForeignKey('paiements.Paiement', on_delete=models.CASCADE, null=True, blank=True, db_column='id_paiement')
+    id_paiement = models.OneToOneField('paiements.Paiement', on_delete=models.CASCADE, null=True, blank=True, db_column='id_paiement')
     class Meta:
         verbose_name = "Document"
         verbose_name_plural = "Documents"
