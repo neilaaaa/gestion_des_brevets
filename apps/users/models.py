@@ -13,7 +13,7 @@ class Role(models.Model):
         return self.nom_role
 
 class Utilisateur(AbstractUser):
-    id_user = models.AutoField(max_length=50, primary_key=True)
+    id_user = models.AutoField(primary_key=True)
     date_ajout = models.DateField(auto_now_add=True)
     
     # Propriété pour supporter l'alias "mdp" figurant sur le diagramme UML
@@ -25,7 +25,7 @@ class Utilisateur(AbstractUser):
     def mdp(self, raw_password):
         self.set_password(raw_password) #mot de passe brut exemple:'1234'
 
-    id_role = models.ForeignKey(Role, on_delete=models.PROTECT, db_column='id_role')
+    id_role = models.ForeignKey(Role, on_delete=models.PROTECT, db_column='id_role', null=True, blank=True)
     class Meta:
         verbose_name = "Utilisateur"
         verbose_name_plural = "Utilisateurs"

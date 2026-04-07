@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 class Notifications(models.Model):     # UML box exactly named 'Notifications'
-    id_notif = models.AutoField(max_length=50, primary_key=True)
+    id_notif = models.AutoField( primary_key=True)
     date_notif = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     etat = models.BooleanField(default=False)
