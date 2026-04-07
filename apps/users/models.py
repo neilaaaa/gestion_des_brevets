@@ -26,7 +26,6 @@ class Utilisateur(AbstractUser):
         self.set_password(raw_password) #mot de passe brut exemple:'1234'
 
     id_role = models.ForeignKey(Role, on_delete=models.PROTECT, db_column='id_role')
-
     class Meta:
         verbose_name = "Utilisateur"
         verbose_name_plural = "Utilisateurs"
