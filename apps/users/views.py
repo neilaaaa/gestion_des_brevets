@@ -26,10 +26,6 @@ class RoleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser] # Seul l'admin gère les rôles
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
- 
-@api_view(['GET'])
-def get_queryset(self):
-    user= self.request.user
       
      
 
