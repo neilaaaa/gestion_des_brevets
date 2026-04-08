@@ -9,7 +9,8 @@ class RoleSerializer(serializers.ModelSerializer):
 class UtilisateurSerializer(serializers.ModelSerializer):
     class Meta:
         model = Utilisateur
-        fields = 'date_ajout', 'id_role'
+        fields = 'id','date_ajout', 'id_role'
+        read_only_fields = 'date_ajout', 'id_role'
         extra_kwargs = {
        'password': {'write_only': True}
         } #cache le password dans les réponses de l'API et aussi pour éviter les erreurs de validation lors de la création d'un utilisateur avec un mot de passe haché déjà existant dans la base de données.
