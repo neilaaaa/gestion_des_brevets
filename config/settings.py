@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'apps.paiements',
     'apps.recours',
     'apps.notifications',
+    'dashboards',
 
     'rest_framework',
 ]

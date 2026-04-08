@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('apps.documents.urls')),
     path('', include('apps.users.urls')),
     path('', include('apps.brevets.urls')),
+    path('', include('apps.dashboards.urls')),
 ]
 
 if settings.DEBUG:
