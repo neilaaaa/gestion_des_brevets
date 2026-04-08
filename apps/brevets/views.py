@@ -1,44 +1,30 @@
 from .models import DemandeBrevet, Deposant, Inventeur, Brevet
 from .serializers import DemandeBrevetSerializer, DeposantSerializer, InventeurSerializer, BrevetSerializer
-from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-class DemandeBrevetListView(generics.ListCreateAPIView):
+class DemandeBrevetViewSet(viewsets.ModelViewSet):
+    queryset =  DemandeBrevet.objects.all()
     permission_classes = [IsAuthenticated]
-    queryset = DemandeBrevet.objects.all()
     serializer_class = DemandeBrevetSerializer
     
-class DemandeBrevetDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = DemandeBrevet.objects.all()
-    serializer_class = DemandeBrevetSerializer  
+    def get_queryset(self):
+      return DemandeBrevet.objects.filter(id_user=self.request.user) #Quand on fait un GET, retourne seulement les demandes de l’utilisateur connecté.
+
+    def perform_create(self, serializer):
+      serializer.save(id_user=self.request.user) #Quand on fait un GET, retourne seulement les demandes de l’utilisateur connecté.
     
-class DeposantListView(generics.ListCreateAPIView):
+class DeposantViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Deposant.objects.all()
     serializer_class = DeposantSerializer
     
-class DeposantDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Deposant.objects.all()
-    serializer_class = DeposantSerializer
-    
-class InventeurListView(generics.ListCreateAPIView):  
+class InventeurViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Inventeur.objects.all()
     serializer_class = InventeurSerializer
     
-class InventeurDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Inventeur.objects.all()
-    serializer_class = InventeurSerializer
-    
-class BrevetListView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+class BrevetViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated] # Seuls les utilisateurs connectés peuvent accéder à ces endpoints
     queryset = Brevet.objects.all()
     serializer_class = BrevetSerializer 
-    
-class BrevetDetailView(generics.RetrieveUpdateDestroyAPIView):  
-    permission_classes = [IsAuthenticated]
-    queryset = Brevet.objects.all()
-    serializer_class = BrevetSerializer

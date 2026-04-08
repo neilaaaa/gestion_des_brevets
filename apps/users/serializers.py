@@ -9,7 +9,7 @@ class RoleSerializer(serializers.ModelSerializer):
 class UtilisateurSerializer(serializers.ModelSerializer):
     class Meta:
         model = Utilisateur
-        fields = '__all__'
+        fields = 'date_ajout', 'id_role'
         extra_kwargs = {
        'password': {'write_only': True}
         } #cache le password dans les réponses de l'API et aussi pour éviter les erreurs de validation lors de la création d'un utilisateur avec un mot de passe haché déjà existant dans la base de données.
@@ -21,3 +21,8 @@ class UtilisateurSerializer(serializers.ModelSerializer):
             user.set_password(password) #hachage du mot de passe brut avant de le stocker dans la base de données
             user.save() #sauvegarde l'utilisateur avec le mot de passe haché
         return user
+    
+    def validate_username(self, value):
+        if Utilisateur.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Ce nom d'utilisateur existe déjà.")
+        return value

@@ -13,7 +13,7 @@ class Role(models.Model):
         return self.nom_role
 
 class Utilisateur(AbstractUser):
-    date_ajout = models.DateField(auto_now_add=True)
+    date_ajout = models.DateField(auto_now_add=True, null=True, blank=True)
     
     # Propriété pour supporter l'alias "mdp" figurant sur le diagramme UML
     @property
